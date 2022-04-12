@@ -3,7 +3,9 @@ package com.example.notes.data.local
 import android.content.Context
 import androidx.room.*
 import com.example.notes.data.local.dao.NotesDao
+import com.example.notes.data.local.dao.UserDao
 import com.example.notes.data.local.model.NotesModel
+import com.example.notes.data.local.model.User
 import com.example.notes.utils.Constant
 import java.util.*
 
@@ -11,7 +13,8 @@ val TAG = "Db"
 
 @Database(
     entities = [
-        NotesModel::class
+        NotesModel::class,
+        User::class
     ],
     version = 1,
 )
@@ -20,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
 
 
     abstract fun noteDao(): NotesDao
+    abstract fun userDao(): UserDao
 
 
     companion object {

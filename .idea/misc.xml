@@ -7,9 +7,11 @@
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/content_main.xml" value="0.25951016154247003" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_first.xml" value="0.259375" />
+        <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_note_add.xml" value="0.20863616930312098" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_notes_list.xml" value="0.2013681060282172" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_second.xml" value="0.259375" />
+        <entry key="..\:/Notes/Notes/app/src/main/res/layout/fragment_sign_up.xml" value="0.19709277469003847" />
         <entry key="..\:/Notes/Notes/app/src/main/res/layout/layout_notes_list.xml" value="0.2013681060282172" />
         <entry key="..\:/Notes/Notes/app/src/main/res/menu/menu_main.xml" value="0.259375" />
       </map>

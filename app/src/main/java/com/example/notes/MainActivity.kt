@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import butterknife.ButterKnife
+import com.example.notes.auth.LoginFragment
 import com.example.notes.notelist.NotesList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(this.toolbar)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, NotesList.newInstance())
+            .replace(R.id.container, LoginFragment.newInstance())
             .commit()
     }
 

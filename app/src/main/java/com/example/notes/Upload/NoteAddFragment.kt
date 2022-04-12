@@ -1,14 +1,13 @@
 package com.example.notes.Upload
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.example.notes.MainVeiwModel
@@ -33,13 +32,16 @@ class NoteAddFragment : Fragment() {
     var mDescriptionString =""
     var mTitleB = false
     var mDescriptionB = false
+    var userID = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_note_add, container, false)
-        ButterKnife.bind(this, view)
+        arguments?.let {
+            userID = it.getString("EXTRA_ID").toString()
+        }
         return view
 
     }
@@ -64,10 +66,10 @@ class NoteAddFragment : Fragment() {
         mDescriptionLayout = view.findViewById(R.id.description_edittext_layout)
         mDescription.addTextChangedListener{
             mDescriptionString = it.toString()
-            if(mDescriptionString.length <100 || mDescriptionString.length >1000){
+            if (mDescriptionString.length < 10 || mDescriptionString.length > 1000) {
                 mDescriptionLayout.isErrorEnabled = true
-                mDescriptionLayout.error ="Title should be min 100 and max 1000 character long."
-            }else{
+                mDescriptionLayout.error = "Title should be min 100 and max 1000 character long."
+            } else {
                 mDescriptionLayout.isErrorEnabled = false;
             }
             mDescriptionB =!(mDescriptionString.length <100 || mDescriptionString.length >1000)
@@ -89,14 +91,18 @@ class NoteAddFragment : Fragment() {
                         )
                     )
                     requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, NotesList.newInstance())
+                        .replace(R.id.container, NotesList.newInstance(userID))
                         .commit()
                 }
             }
         }
     }
     companion object{
-        fun newInstance() = NoteAddFragment()
+        fun newInstance(userID : String) = NoteAddFragment().apply {
+            arguments= Bundle().apply {
+                putString("EXTRA_ID", userID)
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.notes.notelist
 //
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,8 @@ class NotesAdapter(
             ButterKnife.bind(this, view)
             view.setOnClickListener {
                 dataSet[adapterPosition].apply {
-                    this.id?.let { it1 -> listener.onClick(it1) }
+                    Log.d("On Cliclk", "id = $id")
+                    listener.onClick(id!!)
                 }
             }
         }
@@ -34,13 +36,14 @@ class NotesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_notes_list, parent, false)
+        Log.d("Dataset", "Size ${dataSet.size} + $dataSet")
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
+        Log.d("position ", "position $position note = ${dataSet[position]}")
         dataSet[position].apply {
-
             holder.title.text = this.title
         }
     }

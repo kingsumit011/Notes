@@ -1,14 +1,14 @@
 package com.example.notes.Upload
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.example.notes.MainVeiwModel
@@ -17,7 +17,6 @@ import com.example.notes.data.local.model.NotesModel
 import com.example.notes.notelist.NotesList
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.flow.collect
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -25,22 +24,29 @@ import kotlinx.coroutines.flow.collect
 class NoteUpdate : Fragment() {
     private val viewModel: MainVeiwModel by viewModels(ownerProducer = { requireActivity() })
 
-    lateinit var mTitle:TextInputEditText
-    lateinit var mDescription:TextInputEditText
-    lateinit var mTitleLayout:TextInputLayout
+    lateinit var mTitle: TextInputEditText
+    lateinit var mDescription: TextInputEditText
+    lateinit var mTitleLayout: TextInputLayout
     lateinit var mDescriptionLayout: TextInputLayout
     lateinit var mSaveButton: Button
-     var note:NotesModel? = null
-    var mTitleString =""
-    var mDescriptionString =""
+    var note: NotesModel? = null
+    var mTitleString = ""
+    var mDescriptionString = ""
     var mTitleB = false
     var mDescriptionB = false
+    var iD = 0
+    var useriD = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_note_add, container, false)
         ButterKnife.bind(this, view)
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            iD = it.getInt("EXTRA_ID")
+            useriD = it.getString("EXTRA_USER_ID").toString()
+        }
         return view
 
     }
@@ -67,17 +73,18 @@ class NoteUpdate : Fragment() {
         mDescriptionLayout = view.findViewById(R.id.description_edittext_layout)
         mDescription.addTextChangedListener{
             mDescriptionString = it.toString()
-            if(mDescriptionString.length <100 || mDescriptionString.length >1000){
+            if (mDescriptionString.length < 100 || mDescriptionString.length > 1000) {
                 mDescriptionLayout.isErrorEnabled = true
-                mDescriptionLayout.error ="Title should be min 100 and max 1000 character long."
-            }else{
+                mDescriptionLayout.error = "Title should be min 100 and max 1000 character long."
+            } else {
                 mDescriptionLayout.isErrorEnabled = false;
             }
-            mDescriptionB =!(mDescriptionString.length <100 || mDescriptionString.length >1000)
-            mSaveButton.isClickable = mTitleB &&mDescriptionB
+            mDescriptionB = !(mDescriptionString.length < 100 || mDescriptionString.length > 1000)
+            mSaveButton.isClickable = mTitleB && mDescriptionB
         }
-        note= viewModel.getNoteById(id)
-        note?.let{
+        note = viewModel.getNoteById(iD)
+        Log.d("Note by id ", "ID $iD and Note = ${note.toString()}")
+        note?.let {
             mTitle.setText(it.title)
             mDescription.setText(it.description)
         }
@@ -99,14 +106,20 @@ class NoteUpdate : Fragment() {
                         )
                     }
                     requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, NotesList.newInstance())
+                        .replace(R.id.container, NotesList.newInstance(useriD))
                         .commit()
                 }
             }
         }
     }
-    companion object{
-        fun newInstance(id:Int)=NoteUpdate()
-    }
 
+    companion object {
+        fun newInstance(id: Int , userID:String) =
+            NoteUpdate().apply {
+                arguments = Bundle().apply {
+                    putInt("EXTRA_ID", id)
+                    putString("EXTRA_USER_ID", userID)
+                }
+            }
+    }
 }
