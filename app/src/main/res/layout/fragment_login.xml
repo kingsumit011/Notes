@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:hint="Enter Email/phoneNo.">
+        android:hint="Enter Email/phoneNo (Required)">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,7 +47,7 @@
         android:layout_below="@+id/email_text_input"
 
         android:gravity="center"
-        android:hint="Enter Password.">
+        android:hint="Enter Password (Required)">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editPassword"

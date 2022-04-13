@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -12,10 +14,11 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
 import android.util.Log
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStream
+import androidx.annotation.RequiresApi
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.min
 
 
@@ -160,7 +163,7 @@ object URIPathHelper {
                 return uri.path
             }
         } catch (e: Exception) {
-            Log.e("URIPathHelper","",)
+            Log.e("URIPathHelper", "")
         }
         return null
     }
@@ -368,9 +371,70 @@ object URIPathHelper {
             }
             file.path
         } catch (e: Exception) {
-            Log.e("URIPathHelper","",e)
+            Log.e("URIPathHelper", "", e)
             fullPath
         }
         fullPath
     }
+
+    fun getBitmap(ctx: Context, uri: Uri): Bitmap {
+        var file = copyInCache(ctx, uri)
+        return BitmapFactory.decodeFile(file)
+    }
+    /** Create a File for saving an image or video  */
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun getOutputMediaFile(ctx: Context): File? {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+        val mediaStorageDir = File(
+            Environment.getStorageDirectory().absolutePath + "/Android/data/"
+                    + ctx.packageName
+                    + "/Files"
+        )
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null
+            }
+        }
+        // Create a media file name
+        val timeStamp: String = SimpleDateFormat("ddMMyyyy_HHmm").format(Date())
+        val mediaFile: File
+        val mImageName = "MI_$timeStamp.jpg"
+        mediaFile = File(mediaStorageDir.path + File.separator.toString() + mImageName)
+        return mediaFile
+    }
+
+    fun saveToInternalStorage(ctx: Context, uri: Uri): String? {
+//        var image = BitmapFactory.decodeFile(getPath(ctx, uri))
+//        val pictureFile: File? = getOutputMediaFile(ctx)
+//        if (pictureFile == null) {
+//            Log.d(
+//                "TAG",
+//                "Error creating media file, check storage permissions: "
+//            ) // e.getMessage());
+//            return null
+//        }
+//        try {
+//            val fos = FileOutputStream(pictureFile)
+//            image.compress(Bitmap.CompressFormat.PNG, 90, fos)
+//            fos.close()
+//            return  pictureFile.absolutePath
+//        } catch (e: FileNotFoundException) {
+//            Log.d("TAG", "File not found: " + e.toString())
+//        } catch (e: IOException) {
+//            Log.d("TAG", "Error accessing file: " + e.toString())
+//        }
+//        return null
+        return getPath(ctx, uri)
+
+            }
+//
+    fun loadImageFromStorage(path: String)=
+         BitmapFactory.decodeStream(FileInputStream(File(path)))
+
 }

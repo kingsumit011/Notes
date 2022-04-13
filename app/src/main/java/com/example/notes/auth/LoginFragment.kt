@@ -26,6 +26,8 @@ class LoginFragment : Fragment() {
     private lateinit var mErrorView: TextView
     var iD =""
     var password = ""
+    var iDB =false
+    var passwordB = false
     private val viewModel: MainVeiwModel by viewModels(ownerProducer = { requireActivity() })
 
     override fun onCreateView(
@@ -67,14 +69,38 @@ class LoginFragment : Fragment() {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, NotesList.newInstance(iD))
                 .commit()
+        }else{
+            mIdLayout.isErrorEnabled = true
+            mId.error ="User Not Exist"
+            mPasswordLayout.isErrorEnabled = true
+            mPassword.error ="Password Does'nt match"
         }
     }
     fun validator(){
         mId.addTextChangedListener {
             iD = it.toString()
+            iDB = false
+            if (iD.length == 0) {
+                mIdLayout.isErrorEnabled = true
+                mId.error ="Can't be null"
+            } else {
+                iDB = true
+                 mIdLayout.isErrorEnabled = false;
+            }
+            mLogin.isClickable =iDB && passwordB
+
         }
         mPassword.addTextChangedListener{
             password = it.toString()
+            passwordB = false
+            if (password.length == 0) {
+                mPasswordLayout.isErrorEnabled = true
+                mPassword.error ="Can't be null"
+            } else {
+                passwordB = true
+                mPasswordLayout.isErrorEnabled = false;
+            }
+            mLogin.isClickable =iDB && passwordB
         }
     }
 

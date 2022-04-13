@@ -15,19 +15,15 @@ interface UserDao : BaseDao<User> {
     fun getUser(): List<User>
 
     @Query("SELECT * FROM user where email = :email OR phoneNo =:phoneNo" )
-
     fun getSelectedUser(email:String? = "", phoneNo:String? =null): List<User>
     @Query("SELECT * FROM user where (email = :email OR phoneNo =:phoneNo) AND password =:password" )
     fun checkPassword(email:String? = "", phoneNo:String ? =null , password:String): List<User>
     @Query("SELECT * FROM user where _id =:id")
-
     fun getSelectedUserbyid(id:Int): User?
     @Insert
     override fun insert(vararg user: User)
-
     @Insert
     fun insetAll(notes: List<User>)
-
     @Update
     fun update(note: User)
 }

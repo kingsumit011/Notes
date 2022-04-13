@@ -37,6 +37,15 @@
             android:lineSpacingExtra="1dp"
             android:layout_marginHorizontal="@dimen/fab_margin" />
     </com.google.android.material.textfield.TextInputLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list_recycle_view"
+        android:layout_below="@id/description_edittext_layout"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="90dp"
+        tools:listitem="@layout/layout_image"
+        tools:itemCount="10"/>
     <Button
         android:id="@+id/saved"
         android:layout_width="wrap_content"

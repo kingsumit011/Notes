@@ -7,6 +7,7 @@ import com.example.notes.data.local.dao.UserDao
 import com.example.notes.data.local.model.NotesModel
 import com.example.notes.data.local.model.User
 import com.example.notes.utils.Constant
+import com.google.gson.Gson
 import java.util.*
 
 val TAG = "Db"
@@ -18,7 +19,7 @@ val TAG = "Db"
     ],
     version = 1,
 )
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class  )
 abstract class AppDatabase : RoomDatabase() {
 
 
@@ -62,4 +63,9 @@ class Converters {
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
     }
+    @TypeConverter
+    fun listToJson(value: List<String>?) = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToList(value: String) = Gson().fromJson(value, Array<String>::class.java).toList()
 }

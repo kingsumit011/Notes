@@ -69,7 +69,7 @@ class NotesList: Fragment() {
         }
         list.clear()
 
-        list.addAll(viewModel.getNotes())
+        list.addAll(viewModel.getNotes(author = userId))
         Log.d("NOtes List", list.toString())
         mAdapter.notifyDataSetChanged()
         mRecyclerView.apply {
